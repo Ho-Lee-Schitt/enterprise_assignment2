@@ -1,0 +1,102 @@
+﻿@model Assignment2MOT.MOTCentre
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>MOTCentre</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Centre Name:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CentreName)
+        </dd>
+
+        <dt>
+            Address:
+        </dt>
+
+        <dd>
+            @{string[] splitStr = Model.CentreAddress.Split(',');}
+            @for (int i = 0; i < splitStr.Length; i++)
+            {
+                if (i == (splitStr.Length - 1))
+                {
+                    @splitStr[i].Insert(4, " ");
+                }
+                else
+                {
+                    @splitStr[i] <br />
+                }
+            }
+        </dd>
+
+        <dt>
+            Contact Number:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CentreTeleNo)
+        </dd>
+
+        <dt>
+            County:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CentreCounty)
+        </dd>
+
+        <dt>
+            Opening Hours:
+        </dt>
+
+        <dd>
+           @foreach (var time in Model.CentreTimes)
+            {
+                string dayString;
+                dayString = " " + time.OpeningTime.ToString(@"hh\:mm") + " - " + time.ClosingTime.ToString(@"hh\:mm");
+
+                switch (time.DayOfTheWeek)
+                {
+                    case 1:
+
+                        dayString = "Monday:" + dayString;
+                        break;
+                    case 2:
+                        dayString = "Tuesday:" + dayString;
+                        break;
+                    case 3:
+                        dayString = "Wednesday:" + dayString;
+                        break;
+                    case 4:
+                        dayString = "Thursday:" + dayString;
+                        break;
+                    case 5:
+                        dayString = "Friday:" + dayString;
+                        break;
+                    case 6:
+                        dayString = "Saturday:" + dayString;
+                        break;
+                    case 7:
+                        dayString = "Sunday:" + dayString;
+                        break;
+                    default:
+                        break;
+                }
+            @dayString <br />
+           }
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CentreId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

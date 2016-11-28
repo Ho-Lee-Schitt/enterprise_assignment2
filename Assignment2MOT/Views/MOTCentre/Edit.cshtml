@@ -1,0 +1,284 @@
+﻿@model Assignment2MOT.MotCentreTimes
+
+@{
+    ViewBag.Title = "Edit a MOT Centre";
+}
+
+<h2>Edit</h2> @Html.LabelFor(model => model.CentreName, htmlAttributes: new { @class = "h2" })
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.CentreId);
+
+    <div class="form-horizontal">
+        <h4>MotCentreTimes</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.CentreName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CentreName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CentreName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CentreAddressLn1, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CentreAddressLn1, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CentreAddressLn1, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CentreAddressLn2, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CentreAddressLn2, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CentreAddressLn2, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CentreCounty, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CentreCounty, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CentreCounty, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CentrePostcode, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CentrePostcode, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CentrePostcode, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CentreTeleNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CentreTeleNo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CentreTeleNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.times, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="tabbable" id="tabs-843102">
+                    <ul class="nav nav-tabs">
+                            @for (int i = 0; i < 7; i++)
+                            {
+                                if (i == 0)
+                                {
+                                    <li class="active">
+                                        <a href="#panel-@i" data-toggle="tab">@Enum.GetName(typeof(DayOfWeek), i)</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li>
+                                        <a href="#panel-@i" data-toggle="tab">@Enum.GetName(typeof(DayOfWeek), i)</a>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                        <div class="tab-content">
+                            @for (int i = 0; i < 7; i++)
+                            {
+                                if (i == 0)
+                                {
+                                    <div class="tab-pane active" id="panel-@i">
+                                        @foreach (var item in ViewData["TimeList"] as List<SelectListItem>)
+                                        {
+                                            if (item.Value == Model.times[i].OpeningTime.Hours.ToString())
+                                            {
+                                                item.Selected = true;
+                                            }
+                                            else
+                                            {
+                                                item.Selected = false;
+                                            }
+                                        }
+                                        From
+                                        @Html.DropDownListFor(model => model.times[i].OpeningTime, ViewData["TimeList"] as List<SelectListItem>) to
+                                        @foreach (var item in ViewData["TimeList"] as List<SelectListItem>)
+                                        {
+                                            if (item.Value == Model.times[i].ClosingTime.Hours.ToString())
+                                            {
+                                                item.Selected = true;
+                                            }
+                                            else
+                                            {
+                                                item.Selected = false;
+                                            }
+                                        }
+                                        @Html.DropDownListFor(model => model.times[i].ClosingTime, ViewData["TimeList"] as List<SelectListItem>)
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="tab-pane" id="panel-@i">
+                                        @foreach (var item in ViewData["TimeList"] as List<SelectListItem>)
+                                        {
+                                            if (item.Value == Model.times[i].OpeningTime.Hours.ToString())
+                                            {
+                                                item.Selected = true;
+                                            }
+                                            else
+                                            {
+                                                item.Selected = false;
+                                            }
+                                        }
+                                        From
+                                        @Html.DropDownListFor(model => model.times[i].OpeningTime, ViewData["TimeList"] as List<SelectListItem>) to
+                                        @foreach (var item in ViewData["TimeList"] as List<SelectListItem>)
+                                        {
+                                            if (item.Value == Model.times[i].ClosingTime.Hours.ToString())
+                                            {
+                                                item.Selected = true;
+                                            }
+                                            else
+                                            {
+                                                item.Selected = false;
+                                            }
+                                        }
+                                        @Html.DropDownListFor(model => model.times[i].ClosingTime, ViewData["TimeList"] as List<SelectListItem>)
+                                    </div>
+                                }
+                            }
+                        </div>
+                    @*<ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#panel-598998" data-toggle="tab">Monday</a>
+                        </li>
+                        <li>
+                            <a href="#panel-561868" data-toggle="tab">Tuesday</a>
+                        </li>
+                        <li>
+                            <a href="#panel-561869" data-toggle="tab">Wednesday</a>
+                        </li>
+                        <li>
+                            <a href="#panel-561870" data-toggle="tab">Thursday</a>
+                        </li>
+                        <li>
+                            <a href="#panel-561871" data-toggle="tab">Friday</a>
+                        </li>
+                        <li>
+                            <a href="#panel-561872" data-toggle="tab">Saturday</a>
+                        </li>
+                        <li>
+                            <a href="#panel-561873" data-toggle="tab">Sunday</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="panel-598998">
+                            @foreach (var item in ViewData["TimeList"] as List<SelectListItem>)
+                            {
+                                if (item.Value == Model.times[0].OpeningTime.Hours.ToString())
+                                {
+                                    item.Selected = true;
+                                    break;
+                                }
+                            }
+                            From
+                            @Html.DropDownListFor(model => model.times[0].OpeningTime, ViewData["TimeList"] as List<SelectListItem>) to
+                            @foreach (var item in ViewData["TimeList"] as List<SelectListItem>)
+                            {
+                                if (item.Value == Model.times[0].OpeningTime.Hours.ToString())
+                                {
+                                    item.Selected = false;
+                                    break;
+                                }
+                                if (item.Value == Model.times[0].ClosingTime.Hours.ToString())
+                                {
+
+                                    item.Selected = true;
+                                    break;
+                                }
+                            }
+                            @Html.DropDownListFor(model => model.times[0].ClosingTime, ViewData["TimeList"] as List<SelectListItem>)
+                        </div>
+                        <div class="tab-pane" id="panel-561868">
+                            From
+                            @foreach (var item in ViewData["TimeList"] as List<SelectListItem>)
+                            {
+                                if (item.Value == Model.times[0].ClosingTime.Hours.ToString())
+                                {
+                                    item.Selected = false;
+                                    break;
+                                }
+                                if (item.Value == Model.times[1].OpeningTime.Hours.ToString())
+                                {
+
+                                    item.Selected = true;
+                                    break;
+                                }
+                            }
+                            @Html.DropDownListFor(model => model.times[1].OpeningTime, ViewData["TimeList"] as List<SelectListItem>) to
+                            @foreach (var item in ViewData["TimeList"] as List<SelectListItem>)
+                            {
+                                if (item.Value == Model.times[1].OpeningTime.Hours.ToString())
+                                {
+                                    item.Selected = false;
+                                    break;
+                                }
+                                if (item.Value == Model.times[1].ClosingTime.Hours.ToString())
+                                {
+
+                                    item.Selected = true;
+                                    break;
+                                }
+                            }
+                            @Html.DropDownListFor(model => model.times[1].ClosingTime, ViewData["TimeList"] as List<SelectListItem>)
+                        </div>
+                        <div class="tab-pane" id="panel-561869">
+                            From
+                            @Html.DropDownListFor(model => model.times[2].OpeningTime, ViewData["TimeList"] as List<SelectListItem>) to
+                            @Html.DropDownListFor(model => model.times[2].ClosingTime, ViewData["TimeList"] as List<SelectListItem>)
+                        </div>
+                        <div class="tab-pane" id="panel-561870">
+                            From
+                            @Html.DropDownListFor(model => model.times[3].OpeningTime, ViewData["TimeList"] as List<SelectListItem>) to
+                            @Html.DropDownListFor(model => model.times[3].ClosingTime, ViewData["TimeList"] as List<SelectListItem>)
+                        </div>
+                        <div class="tab-pane" id="panel-561871">
+                            From
+                            @Html.DropDownListFor(model => model.times[4].OpeningTime, ViewData["TimeList"] as List<SelectListItem>) to
+                            @Html.DropDownListFor(model => model.times[4].ClosingTime, ViewData["TimeList"] as List<SelectListItem>)
+                        </div>
+                        <div class="tab-pane" id="panel-561872">
+                            From
+                            @Html.DropDownListFor(model => model.times[5].OpeningTime, ViewData["TimeList"] as List<SelectListItem>) to
+                            @Html.DropDownListFor(model => model.times[5].ClosingTime, ViewData["TimeList"] as List<SelectListItem>)
+                        </div>
+                        <div class="tab-pane" id="panel-561873">
+                            From
+                            @Html.DropDownListFor(model => model.times[6].OpeningTime, ViewData["TimeList"] as List<SelectListItem>) to
+                            @Html.DropDownListFor(model => model.times[6].ClosingTime, ViewData["TimeList"] as List<SelectListItem>)
+                        </div>
+                    </div>*@
+                </div>
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
