@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Assignment2MOT.Models;
+using AutoMapper;
 
 namespace Assignment2MOT.Controllers
 {
@@ -25,7 +26,7 @@ namespace Assignment2MOT.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            List<VechAppoint> model = (List<VechAppoint>)repository.SelectAll();
+            List<VechAppoint> model = (List<VechAppoint>)repository.SelectAllAppointments();
             return View(model);
         }
 
@@ -39,20 +40,27 @@ namespace Assignment2MOT.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            return View();
+            VechAppointViewModel viewModel = new VechAppointViewModel
+            {
+                MOTCentres = repository.SelectAllCentres()
+            };
+
+            return View(viewModel);
         }
 
         [HttpPost]
-        public ActionResult Create(VechAppoint obj)
+        public ActionResult Create(VechAppointViewModel obj)
         {
             if (ModelState.IsValid)
             { // check valid state
-                repository.Insert(obj);
+                VechAppoint newAppoint = convVAVMtoVA(obj);
+                repository.Insert(newAppoint);
                 repository.Save();
                 return RedirectToAction("Index");
             }
             else // not valid so redisplay
             {
+                obj.MOTCentres = repository.SelectAllCentres();
                 return View(obj);
             }
         }
@@ -92,6 +100,18 @@ namespace Assignment2MOT.Controllers
             repository.Delete(id);
             repository.Save();
             return RedirectToAction("Index");
+        }
+
+        public VechAppoint convVAVMtoVA(VechAppointViewModel vm)
+        {
+            VechAppoint va = new VechAppoint { MOTCentresCentreId = vm.MOTCentresCentreId, VechAppointId = vm.VechAppointId, VechOwner = vm.VechOwner, VechRegNo = vm.VechRegNo, VechAppointTime = vm.VechAppointTime };
+            return va;
+        }
+
+        public VechAppoint convVAtoVAVM(VechAppoint va)
+        {
+            VechAppoint vm = new VechAppoint { MOTCentresCentreId = va.MOTCentresCentreId, VechAppointId = va.VechAppointId, VechOwner = va.VechOwner, VechRegNo = va.VechRegNo, VechAppointTime = va.VechAppointTime };
+            return vm;
         }
     }
 }

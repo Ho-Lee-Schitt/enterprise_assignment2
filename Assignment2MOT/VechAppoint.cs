@@ -9,18 +9,25 @@ namespace Assignment2MOT
     [Table("VechAppoint")]
     public partial class VechAppoint
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Key]
         public int VechAppointId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Vehicle Registration is a required field")]
         [StringLength(7)]
+        [Display(Name = "Vehicle Redgistration:")]
         public string VechRegNo { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Vehicle Owner is a required field")]
+        [Display(Name = "Vehicle Owner:")]
         public string VechOwner { get; set; }
 
+        [Required(ErrorMessage = "Appointment Time is a required field")]
+        [Display(Name = "Appointment Time:")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm}")]
         public DateTime VechAppointTime { get; set; }
 
+        [Required(ErrorMessage = "MOT Centre is a required field")]
+        [Display(Name = "MOT Centre:")]
         public int MOTCentresCentreId { get; set; }
 
         public virtual MOTCentre MOTCentre { get; set; }

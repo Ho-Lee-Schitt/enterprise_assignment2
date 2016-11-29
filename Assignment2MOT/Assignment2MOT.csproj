@@ -44,6 +44,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=5.2.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.2.0\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -219,6 +223,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="VechAppoint.cs" />
+    <Compile Include="VechAppointViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Assignment2.MOT.mdf" />
@@ -290,10 +295,10 @@
     <Content Include="Views\MOTCentre\Delete.cshtml" />
     <Content Include="Views\MOTCentre\Create.cshtml" />
     <Content Include="Views\MOTCentre\Edit.cshtml" />
+    <Content Include="Views\VechAppoint\Index.cshtml" />
+    <Content Include="Views\VechAppoint\Create.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\VechAppoint\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />

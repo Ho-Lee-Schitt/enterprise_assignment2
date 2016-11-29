@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Assignment2MOT.VechAppoint>
+
+@{
+    ViewBag.Title = "MOT Appointment Details";
+}
+
+<h2>MOT Appointment Details</h2>
+
+<p>
+    @Html.ActionLink("Create New Appointment", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.VechRegNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VechOwner)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VechAppointTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MOTCentresCentreId)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.VechRegNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VechOwner)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VechAppointTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MOTCentresCentreId)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.VechAppointId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.VechAppointId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.VechAppointId })
+        </td>
+    </tr>
+}
+
+</table>
