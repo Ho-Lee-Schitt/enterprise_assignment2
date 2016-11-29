@@ -1,7 +1,7 @@
 ﻿@model Assignment2MOT.VechAppointViewModel
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Create a New Vehicle Appointment";
 }
 
 <h2>Create</h2>
@@ -12,7 +12,7 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>VechAppointViewModel</h4>
+        <h4>New Vehicle Appointment</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @*<div class="form-group">
@@ -40,6 +40,14 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.VechAppointDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.VechAppointDate, "{0:dd-MM-yyyy}", new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.VechAppointDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.VechAppointTime, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.VechAppointTime, "{0:dd-MM-yyyy}", new { htmlAttributes = new { @class = "form-control" } })
@@ -53,7 +61,8 @@
                 @Html.DropDownListFor(
                     model => model.MOTCentresCentreId,
                     new SelectList(Model.MOTCentres, "CentreId", "CentreName", Model.MOTCentres),
-                    "-- Select --"
+                    "-- Select --",
+                    new { @class = "form-control" }
                 )
                 @Html.ValidationMessageFor(model => model.MOTCentresCentreId, "", new { @class = "text-danger" })
             </div>

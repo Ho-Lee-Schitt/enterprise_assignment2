@@ -5,7 +5,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Assignment2MOT.Models;
-using AutoMapper;
 
 namespace Assignment2MOT.Controllers
 {
@@ -51,7 +50,7 @@ namespace Assignment2MOT.Controllers
         [HttpPost]
         public ActionResult Create(VechAppointViewModel obj)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && isTimeValid(obj.VechAppointTime, obj.VechAppointDate, obj.MOTCentresCentreId))
             { // check valid state
                 VechAppoint newAppoint = convVAVMtoVA(obj);
                 repository.Insert(newAppoint);
@@ -69,20 +68,25 @@ namespace Assignment2MOT.Controllers
         public ActionResult ConfirmEdit(int id)
         {
             VechAppoint existing = repository.SelectByID(id);
-            return View(existing);
+            ViewData["currentMOTCentre"] = existing.MOTCentre.CentreName;
+            VechAppointViewModel vavm = convVAtoVAVM(existing);
+            vavm.MOTCentres = repository.SelectAllCentres();
+            return View(vavm);
         }
 
         [HttpPost]
-        public ActionResult Edit(VechAppoint obj)
+        public ActionResult Edit(VechAppointViewModel obj)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && isTimeValid(obj.VechAppointTime, obj.VechAppointDate, obj.MOTCentresCentreId))
             { // check valid state
-                repository.Update(obj);
+                VechAppoint updatedAppoint = convVAVMtoVA(obj);
+                repository.Update(updatedAppoint);
                 repository.Save();
                 return RedirectToAction("Index");
             }
             else // not valid so redisplay
             {
+                obj.MOTCentres = repository.SelectAllCentres();
                 return View(obj);
             }
         }
@@ -104,14 +108,35 @@ namespace Assignment2MOT.Controllers
 
         public VechAppoint convVAVMtoVA(VechAppointViewModel vm)
         {
-            VechAppoint va = new VechAppoint { MOTCentresCentreId = vm.MOTCentresCentreId, VechAppointId = vm.VechAppointId, VechOwner = vm.VechOwner, VechRegNo = vm.VechRegNo, VechAppointTime = vm.VechAppointTime };
+            VechAppoint va = new VechAppoint { MOTCentresCentreId = vm.MOTCentresCentreId, VechAppointId = vm.VechAppointId, VechOwner = vm.VechOwner, VechRegNo = vm.VechRegNo };
+            va.VechAppointTime = vm.VechAppointDate.Date + vm.VechAppointTime.TimeOfDay;
             return va;
         }
 
-        public VechAppoint convVAtoVAVM(VechAppoint va)
+        public VechAppointViewModel convVAtoVAVM(VechAppoint va)
         {
-            VechAppoint vm = new VechAppoint { MOTCentresCentreId = va.MOTCentresCentreId, VechAppointId = va.VechAppointId, VechOwner = va.VechOwner, VechRegNo = va.VechRegNo, VechAppointTime = va.VechAppointTime };
+            VechAppointViewModel vm = new VechAppointViewModel { MOTCentresCentreId = va.MOTCentresCentreId, VechAppointId = va.VechAppointId, VechOwner = va.VechOwner, VechRegNo = va.VechRegNo };
+            vm.VechAppointTime = DateTime.Parse(va.VechAppointTime.ToString("HH:mm"));
+            vm.VechAppointDate = va.VechAppointTime.Date;
             return vm;
+        }
+
+        public bool isTimeValid(DateTime time, DateTime date, int centreId)
+        {
+            if (repository.GetCentreTimes(centreId).Any())
+            {
+                foreach (var ct in repository.GetCentreTimes(centreId))
+                {
+                    if(ct.DayOfTheWeek == (int)date.DayOfWeek) {
+                        if (time.TimeOfDay < ct.OpeningTime || time.TimeOfDay > ct.ClosingTime)
+                        {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+            return false;
         }
     }
 }

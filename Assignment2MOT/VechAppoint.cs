@@ -14,7 +14,7 @@ namespace Assignment2MOT
 
         [Required(ErrorMessage = "Vehicle Registration is a required field")]
         [StringLength(7)]
-        [Display(Name = "Vehicle Redgistration:")]
+        [Display(Name = "Vehicle Registration:")]
         public string VechRegNo { get; set; }
 
         [Required(ErrorMessage = "Vehicle Owner is a required field")]
@@ -23,7 +23,7 @@ namespace Assignment2MOT
 
         [Required(ErrorMessage = "Appointment Time is a required field")]
         [Display(Name = "Appointment Time:")]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm}")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}")]
         public DateTime VechAppointTime { get; set; }
 
         [Required(ErrorMessage = "MOT Centre is a required field")]

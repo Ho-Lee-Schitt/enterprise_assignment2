@@ -1,0 +1,56 @@
+﻿@model Assignment2MOT.VechAppoint
+
+@{
+    ViewBag.Title = "Delete an Appointment";
+}
+
+<h2>Delete an Appointment</h2>
+
+<h3>Are you sure you want to delete this appointment?</h3>
+<div>
+    <h4>VechAppoint</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.VechRegNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VechRegNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VechOwner)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VechOwner)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VechAppointTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VechAppointTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MOTCentresCentreId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MOTCentresCentreId)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

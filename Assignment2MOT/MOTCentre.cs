@@ -19,6 +19,7 @@ namespace Assignment2MOT
         public int CentreId { get; set; }
 
         [Required]
+        [Display(Name = "Centre Name:")]
         public string CentreName { get; set; }
 
         [Required]

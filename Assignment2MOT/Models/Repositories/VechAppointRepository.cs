@@ -54,6 +54,16 @@ namespace Assignment2MOT.Models.Repositories
         public void Update(VechAppoint obj)
         {
             db.Entry(obj).State = EntityState.Modified;
+            VechAppoint va = SelectByID(obj.VechAppointId);
+            va.VechAppointTime = obj.VechAppointTime;
+            va.VechOwner = obj.VechOwner;
+            va.VechRegNo = obj.VechRegNo;
+            va.MOTCentresCentreId = obj.MOTCentresCentreId;
+        }
+
+        public IEnumerable<CentreTime> GetCentreTimes (int id)
+        {
+            return db.CentreTimes.Where(t => t.MOTCentresCentreId == id).ToList();
         }
     }
 }
