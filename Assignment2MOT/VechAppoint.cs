@@ -9,6 +9,10 @@ namespace Assignment2MOT
     [Table("VechAppoint")]
     public partial class VechAppoint
     {
+        /*
+         * This class is never used to take data for the user and so therefore no data validation is applied to the fields.
+         */
+
         [Key]
         public int VechAppointId { get; set; }
 

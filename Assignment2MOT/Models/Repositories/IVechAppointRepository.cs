@@ -15,6 +15,5 @@ namespace Assignment2MOT.Models.Repositories
         void Update(VechAppoint obj);
         void Delete(int id);
         void Save();
-        IEnumerable<MOTCentre> SelectAllCentres();
     }
 }

@@ -13,16 +13,40 @@ namespace Assignment2MOT.Controllers
     {
         private MOTCentreRepository repository = null;
 
+        public List<SelectListItem> list = new List<SelectListItem>{
+                new SelectListItem{ Text="00:00", Value = "0" },
+                new SelectListItem{ Text="01:00", Value = "1" },
+                new SelectListItem{ Text="02:00", Value = "2" },
+                new SelectListItem{ Text="03:00", Value = "3" },
+                new SelectListItem{ Text="04:00", Value = "4" },
+                new SelectListItem{ Text="05:00", Value = "5" },
+                new SelectListItem{ Text="06:00", Value = "6" },
+                new SelectListItem{ Text="07:00", Value = "7" },
+                new SelectListItem{ Text="08:00", Value = "8" },
+                new SelectListItem{ Text="09:00", Value = "9" },
+                new SelectListItem{ Text="10:00", Value = "10" },
+                new SelectListItem{ Text="11:00", Value = "11" },
+                new SelectListItem{ Text="12:00", Value = "12" },
+                new SelectListItem{ Text="13:00", Value = "13" },
+                new SelectListItem{ Text="14:00", Value = "14" },
+                new SelectListItem{ Text="15:00", Value = "15" },
+                new SelectListItem{ Text="16:00", Value = "16" },
+                new SelectListItem{ Text="17:00", Value = "17" },
+                new SelectListItem{ Text="18:00", Value = "18" },
+                new SelectListItem{ Text="19:00", Value = "19" },
+                new SelectListItem{ Text="20:00", Value = "20" },
+                new SelectListItem{ Text="21:00", Value = "21" },
+                new SelectListItem{ Text="22:00", Value = "22" },
+                new SelectListItem{ Text="23:00", Value = "23" },
+        };
+
+        // Constructor
         public MOTCentreController()
         {
             this.repository = new MOTCentreRepository();
         }
 
-        //public MOTCentreController(MOTCentreRepository repository)
-        //{
-        //    this.repository = repository;
-        //}
-
+        // List of Centres
         [HttpGet]
         public ActionResult Index()
         {
@@ -30,6 +54,7 @@ namespace Assignment2MOT.Controllers
             return View(model);
         }
 
+        // Centre Details
         [HttpGet]
         public ActionResult Details(int id)
         {
@@ -37,73 +62,21 @@ namespace Assignment2MOT.Controllers
             return View(existing);
         }
 
+        // Centre Create - display the view
         [HttpGet]
         public ActionResult Create()
         {
-            var list = new List<SelectListItem>
-            {
-                new SelectListItem{ Text="00:00", Value = "0" },
-                new SelectListItem{ Text="01:00", Value = "1" },
-                new SelectListItem{ Text="02:00", Value = "2" },
-                new SelectListItem{ Text="03:00", Value = "3" },
-                new SelectListItem{ Text="04:00", Value = "4" },
-                new SelectListItem{ Text="05:00", Value = "5" },
-                new SelectListItem{ Text="06:00", Value = "6" },
-                new SelectListItem{ Text="07:00", Value = "7" },
-                new SelectListItem{ Text="08:00", Value = "8" },
-                new SelectListItem{ Text="09:00", Value = "9" },
-                new SelectListItem{ Text="10:00", Value = "10" },
-                new SelectListItem{ Text="11:00", Value = "11" },
-                new SelectListItem{ Text="12:00", Value = "12" },
-                new SelectListItem{ Text="13:00", Value = "13" },
-                new SelectListItem{ Text="14:00", Value = "14" },
-                new SelectListItem{ Text="15:00", Value = "15" },
-                new SelectListItem{ Text="16:00", Value = "16" },
-                new SelectListItem{ Text="17:00", Value = "17" },
-                new SelectListItem{ Text="18:00", Value = "18" },
-                new SelectListItem{ Text="19:00", Value = "19" },
-                new SelectListItem{ Text="20:00", Value = "20" },
-                new SelectListItem{ Text="21:00", Value = "21" },
-                new SelectListItem{ Text="22:00", Value = "22" },
-                new SelectListItem{ Text="23:00", Value = "23" },
-            };
             ViewData["TimeList"] = list;
             return View();
         }
 
+        // Centre Create - get the result and process
         [HttpPost]
         public ActionResult Create(MotCentreTimes obj)
         {
-            var list = new List<SelectListItem>
-            {
-                new SelectListItem{ Text="00:00", Value = "0" },
-                new SelectListItem{ Text="01:00", Value = "1" },
-                new SelectListItem{ Text="02:00", Value = "2" },
-                new SelectListItem{ Text="03:00", Value = "3" },
-                new SelectListItem{ Text="04:00", Value = "4" },
-                new SelectListItem{ Text="05:00", Value = "5" },
-                new SelectListItem{ Text="06:00", Value = "6" },
-                new SelectListItem{ Text="07:00", Value = "7" },
-                new SelectListItem{ Text="08:00", Value = "8" },
-                new SelectListItem{ Text="09:00", Value = "9" },
-                new SelectListItem{ Text="10:00", Value = "10" },
-                new SelectListItem{ Text="11:00", Value = "11" },
-                new SelectListItem{ Text="12:00", Value = "12" },
-                new SelectListItem{ Text="13:00", Value = "13" },
-                new SelectListItem{ Text="14:00", Value = "14" },
-                new SelectListItem{ Text="15:00", Value = "15" },
-                new SelectListItem{ Text="16:00", Value = "16" },
-                new SelectListItem{ Text="17:00", Value = "17" },
-                new SelectListItem{ Text="18:00", Value = "18" },
-                new SelectListItem{ Text="19:00", Value = "19" },
-                new SelectListItem{ Text="20:00", Value = "20" },
-                new SelectListItem{ Text="21:00", Value = "21" },
-                new SelectListItem{ Text="22:00", Value = "22" },
-                new SelectListItem{ Text="23:00", Value = "23" },
-            };
             ViewData["TimeList"] = list;
             if (ModelState.IsValid && checkTimes(obj))
-            { // check valid state
+            { // check valid state and times
                 MOTCentre centre = new MOTCentre { CentreName = obj.CentreName, CentreCounty = obj.CentreCounty, CentreTeleNo = long.Parse(Regex.Replace(obj.CentreTeleNo, @"\s+", "")) };
                 if (String.IsNullOrEmpty(obj.CentreAddressLn2)) {
                     centre.CentreAddress = obj.CentreAddressLn1 + "," + obj.CentreCounty + "," + obj.CentrePostcode;
@@ -133,72 +106,20 @@ namespace Assignment2MOT.Controllers
             }
         }
 
+        // Edit Centre - send the view
         [HttpGet, ActionName("Edit")]
         public ActionResult ConfirmEdit(int id)
         {
-            var list = new List<SelectListItem>
-            {
-                new SelectListItem{ Text="00:00", Value = "0" },
-                new SelectListItem{ Text="01:00", Value = "1" },
-                new SelectListItem{ Text="02:00", Value = "2" },
-                new SelectListItem{ Text="03:00", Value = "3" },
-                new SelectListItem{ Text="04:00", Value = "4" },
-                new SelectListItem{ Text="05:00", Value = "5" },
-                new SelectListItem{ Text="06:00", Value = "6" },
-                new SelectListItem{ Text="07:00", Value = "7" },
-                new SelectListItem{ Text="08:00", Value = "8" },
-                new SelectListItem{ Text="09:00", Value = "9" },
-                new SelectListItem{ Text="10:00", Value = "10" },
-                new SelectListItem{ Text="11:00", Value = "11" },
-                new SelectListItem{ Text="12:00", Value = "12" },
-                new SelectListItem{ Text="13:00", Value = "13" },
-                new SelectListItem{ Text="14:00", Value = "14" },
-                new SelectListItem{ Text="15:00", Value = "15" },
-                new SelectListItem{ Text="16:00", Value = "16" },
-                new SelectListItem{ Text="17:00", Value = "17" },
-                new SelectListItem{ Text="18:00", Value = "18" },
-                new SelectListItem{ Text="19:00", Value = "19" },
-                new SelectListItem{ Text="20:00", Value = "20" },
-                new SelectListItem{ Text="21:00", Value = "21" },
-                new SelectListItem{ Text="22:00", Value = "22" },
-                new SelectListItem{ Text="23:00", Value = "23" },
-            };
             ViewData["TimeList"] = list;
             MOTCentre existing = repository.SelectByID(id);
             MotCentreTimes centreTime = convertMCtoMCT(existing);
             return View(centreTime);
         }
 
+        // Edit Centre - handle the return
         [HttpPost]
         public ActionResult Edit(MotCentreTimes obj)
         {
-            var list = new List<SelectListItem>
-            {
-                new SelectListItem{ Text="00:00", Value = "0" },
-                new SelectListItem{ Text="01:00", Value = "1" },
-                new SelectListItem{ Text="02:00", Value = "2" },
-                new SelectListItem{ Text="03:00", Value = "3" },
-                new SelectListItem{ Text="04:00", Value = "4" },
-                new SelectListItem{ Text="05:00", Value = "5" },
-                new SelectListItem{ Text="06:00", Value = "6" },
-                new SelectListItem{ Text="07:00", Value = "7" },
-                new SelectListItem{ Text="08:00", Value = "8" },
-                new SelectListItem{ Text="09:00", Value = "9" },
-                new SelectListItem{ Text="10:00", Value = "10" },
-                new SelectListItem{ Text="11:00", Value = "11" },
-                new SelectListItem{ Text="12:00", Value = "12" },
-                new SelectListItem{ Text="13:00", Value = "13" },
-                new SelectListItem{ Text="14:00", Value = "14" },
-                new SelectListItem{ Text="15:00", Value = "15" },
-                new SelectListItem{ Text="16:00", Value = "16" },
-                new SelectListItem{ Text="17:00", Value = "17" },
-                new SelectListItem{ Text="18:00", Value = "18" },
-                new SelectListItem{ Text="19:00", Value = "19" },
-                new SelectListItem{ Text="20:00", Value = "20" },
-                new SelectListItem{ Text="21:00", Value = "21" },
-                new SelectListItem{ Text="22:00", Value = "22" },
-                new SelectListItem{ Text="23:00", Value = "23" },
-            };
             ViewData["TimeList"] = list;
             if (ModelState.IsValid && checkTimes(obj))
             { // check valid state
@@ -221,6 +142,7 @@ namespace Assignment2MOT.Controllers
             }
         }
 
+        // Delete centre - send the view
         [HttpGet, ActionName("Delete")]
         public ActionResult ConfirmDelete(int id)
         {
@@ -228,6 +150,7 @@ namespace Assignment2MOT.Controllers
             return View(existing);
         }
 
+        // Delete centre - handle the return
         [HttpPost]
         public ActionResult Delete(int id)
         {
@@ -236,6 +159,11 @@ namespace Assignment2MOT.Controllers
             return RedirectToAction("Index");
         }
 
+        /* 
+         * Checks if the times given are valid.
+         * i.e. not equal to each other.
+         *      doesn't close before it opens.
+         */
         private bool checkTimes(MotCentreTimes Centre)
         {
             for (int i = 0; i < Centre.times.Count; i++)
@@ -255,6 +183,7 @@ namespace Assignment2MOT.Controllers
             return false;
         }
 
+        // Conversion for MotCentreTimes to MOTCentre
         private MOTCentre convertMCTtoMC(MotCentreTimes centreTime)
         {
             MOTCentre centre = new MOTCentre { CentreId = centreTime.CentreId, CentreName = centreTime.CentreName, CentreCounty = centreTime.CentreCounty, CentreTeleNo = long.Parse(Regex.Replace(centreTime.CentreTeleNo, @"\s+", "")) };
@@ -270,6 +199,7 @@ namespace Assignment2MOT.Controllers
             return centre;
         }
 
+        // Conversion for MOTCentre to MotCentreTimes
         private MotCentreTimes convertMCtoMCT(MOTCentre centre)
         {
             MotCentreTimes centreTime = new MotCentreTimes { CentreId = centre.CentreId, CentreName = centre.CentreName, CentreCounty = centre.CentreCounty, CentreTeleNo = ("0" + centre.CentreTeleNo.ToString()) };
