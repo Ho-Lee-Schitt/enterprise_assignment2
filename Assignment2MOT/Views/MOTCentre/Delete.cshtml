@@ -1,14 +1,13 @@
 ﻿@model Assignment2MOT.MOTCentre
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Delete an MOT Centre";
 }
 
-<h2>Delete</h2>
+<h2>Delete an MOT Centre</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Are you sure you want to delete @Html.DisplayFor(model => model.CentreName)?</h3>
 <div>
-    <h4>MOTCentre</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>

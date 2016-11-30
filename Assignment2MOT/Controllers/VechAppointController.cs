@@ -23,8 +23,13 @@ namespace Assignment2MOT.Controllers
         //}
 
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(int id = -1)
         {
+            if (id >= 0 )
+            {
+                List<VechAppoint> centreAppoints = (List<VechAppoint>)repository.SelectCentreAppointments(id);
+                return View(centreAppoints);
+            }
             List<VechAppoint> model = (List<VechAppoint>)repository.SelectAllAppointments();
             return View(model);
         }

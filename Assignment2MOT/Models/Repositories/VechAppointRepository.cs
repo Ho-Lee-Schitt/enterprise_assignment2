@@ -41,6 +41,11 @@ namespace Assignment2MOT.Models.Repositories
             return db.VechAppoints.OrderBy(a => a.MOTCentresCentreId).ThenBy(b => b.VechAppointTime).ToList();
         }
 
+        public IEnumerable<VechAppoint> SelectCentreAppointments(int id)
+        {
+            return db.VechAppoints.Where(a => a.MOTCentresCentreId == id).OrderBy(b => b.VechAppointTime).ToList();
+        }
+
         public IEnumerable<MOTCentre> SelectAllCentres()
         {
             return db.MOTCentres.OrderBy(a => a.CentreId).ToList();

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Assignment2MOT.Models.Repositories;
 using Assignment2MOT.Models;
+using System.Text.RegularExpressions;
 
 namespace Assignment2MOT.Controllers
 {
@@ -103,7 +104,7 @@ namespace Assignment2MOT.Controllers
             ViewData["TimeList"] = list;
             if (ModelState.IsValid && checkTimes(obj))
             { // check valid state
-                MOTCentre centre = new MOTCentre { CentreName = obj.CentreName, CentreCounty = obj.CentreCounty, CentreTeleNo = obj.CentreTeleNo };
+                MOTCentre centre = new MOTCentre { CentreName = obj.CentreName, CentreCounty = obj.CentreCounty, CentreTeleNo = long.Parse(Regex.Replace(obj.CentreTeleNo, @"\s+", "")) };
                 if (String.IsNullOrEmpty(obj.CentreAddressLn2)) {
                     centre.CentreAddress = obj.CentreAddressLn1 + "," + obj.CentreCounty + "," + obj.CentrePostcode;
                 }
@@ -256,7 +257,7 @@ namespace Assignment2MOT.Controllers
 
         private MOTCentre convertMCTtoMC(MotCentreTimes centreTime)
         {
-            MOTCentre centre = new MOTCentre { CentreId = centreTime.CentreId, CentreName = centreTime.CentreName, CentreCounty = centreTime.CentreCounty, CentreTeleNo = centreTime.CentreTeleNo };
+            MOTCentre centre = new MOTCentre { CentreId = centreTime.CentreId, CentreName = centreTime.CentreName, CentreCounty = centreTime.CentreCounty, CentreTeleNo = long.Parse(Regex.Replace(centreTime.CentreTeleNo, @"\s+", "")) };
             if (String.IsNullOrEmpty(centreTime.CentreAddressLn2))
             {
                 centre.CentreAddress = centreTime.CentreAddressLn1 + "," + centreTime.CentreCounty + "," + centreTime.CentrePostcode;
@@ -271,7 +272,7 @@ namespace Assignment2MOT.Controllers
 
         private MotCentreTimes convertMCtoMCT(MOTCentre centre)
         {
-            MotCentreTimes centreTime = new MotCentreTimes { CentreId = centre.CentreId, CentreName = centre.CentreName, CentreCounty = centre.CentreCounty, CentreTeleNo = centre.CentreTeleNo };
+            MotCentreTimes centreTime = new MotCentreTimes { CentreId = centre.CentreId, CentreName = centre.CentreName, CentreCounty = centre.CentreCounty, CentreTeleNo = ("0" + centre.CentreTeleNo.ToString()) };
             string[] address = centre.CentreAddress.Split(',');
             centreTime.CentreAddressLn1 = address[0];
             if (address.Count() < 4)

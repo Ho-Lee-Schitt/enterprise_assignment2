@@ -24,6 +24,7 @@ namespace Assignment2MOT
         [Display(Name = "Appointment Date")]
         [DataType(DataType.Date)]
         [CustomDateAttribute]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime VechAppointDate { get; set; }
 
         [Required(ErrorMessage = "Appointment Time is a required field")]

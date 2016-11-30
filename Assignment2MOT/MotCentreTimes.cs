@@ -31,8 +31,9 @@ namespace Assignment2MOT
 
         [Required(ErrorMessage = "Your must provide a Phone Number")]
         [Display(Name = "Contact Number:")]
-        [RegularExpression(@"^\(?(0?[0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid Phone number. e.g. 028375222234")]
-        public long CentreTeleNo { get; set; }
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid Phone number. e.g. 028 3752 2234")]
+        [DataType(DataType.PhoneNumber)]
+        public string CentreTeleNo { get; set; }
 
         [Required(ErrorMessage = "County is a required field")]
         [Display(Name = "County:")]
