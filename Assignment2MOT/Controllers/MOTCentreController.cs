@@ -77,7 +77,7 @@ namespace Assignment2MOT.Controllers
             ViewData["TimeList"] = list;
             if (ModelState.IsValid && checkTimes(obj))
             { // check valid state and times
-                MOTCentre centre = new MOTCentre { CentreName = obj.CentreName, CentreCounty = obj.CentreCounty, CentreTeleNo = long.Parse(Regex.Replace(obj.CentreTeleNo, @"\s+", "")) };
+                MOTCentre centre = new MOTCentre { CentreName = obj.CentreName, CentreCounty = obj.CentreCounty, CentreTeleNo = long.Parse(Regex.Replace(obj.CentreTeleNo, @"[\s\(\)-.]+", "")) };
                 if (String.IsNullOrEmpty(obj.CentreAddressLn2)) {
                     centre.CentreAddress = obj.CentreAddressLn1 + "," + obj.CentreCounty + "," + obj.CentrePostcode;
                 }
