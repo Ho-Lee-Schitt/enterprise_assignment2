@@ -58,6 +58,7 @@
         </dt>
 
         <dd>
+            @{ string[] weekArray = new string[7];}
             @foreach (var time in Model.CentreTimes)
             {
                 string dayString;
@@ -66,31 +67,36 @@
                 switch (time.DayOfTheWeek)
                 {
                     case 1:
-
-                        dayString = "Monday:" + dayString;
+                        weekArray[1] = "Monday:" + dayString;
                         break;
                     case 2:
-                        dayString = "Tuesday:" + dayString;
+                        weekArray[2] = "Tuesday:" + dayString;
                         break;
                     case 3:
-                        dayString = "Wednesday:" + dayString;
+                        weekArray[3] = "Wednesday:" + dayString;
                         break;
                     case 4:
-                        dayString = "Thursday:" + dayString;
+                        weekArray[4] = "Thursday:" + dayString;
                         break;
                     case 5:
-                        dayString = "Friday:" + dayString;
+                        weekArray[5] = "Friday:" + dayString;
                         break;
                     case 6:
-                        dayString = "Saturday:" + dayString;
+                        weekArray[6] = "Saturday:" + dayString;
                         break;
-                    case 7:
-                        dayString = "Sunday:" + dayString;
+                    case 0:
+                        weekArray[0] = "Sunday:" + dayString;
                         break;
                     default:
                         break;
                 }
-                @dayString <br />
+            }
+            @for (int i = 0; i < 7; i++)
+            {
+                if (weekArray[i] != null)
+                {
+                    @weekArray[i] <br />
+                }
             }
         </dd>
 

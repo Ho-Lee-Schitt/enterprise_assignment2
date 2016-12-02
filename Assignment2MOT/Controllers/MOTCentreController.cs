@@ -59,6 +59,10 @@ namespace Assignment2MOT.Controllers
         public ActionResult Details(int id)
         {
             MOTCentre existing = repository.SelectByID(id);
+            if (existing == null)
+            {
+                return new HttpNotFoundResult("Invalid Centre ID");
+            }
             return View(existing);
         }
 
@@ -75,30 +79,30 @@ namespace Assignment2MOT.Controllers
         public ActionResult Create(MotCentreTimes obj)
         {
             ViewData["TimeList"] = list;
-            if (ModelState.IsValid && checkTimes(obj))
+            if (ModelState.IsValid)
             { // check valid state and times
-                MOTCentre centre = new MOTCentre { CentreName = obj.CentreName, CentreCounty = obj.CentreCounty, CentreTeleNo = long.Parse(Regex.Replace(obj.CentreTeleNo, @"[\s\(\)-.]+", "")) };
-                if (String.IsNullOrEmpty(obj.CentreAddressLn2)) {
-                    centre.CentreAddress = obj.CentreAddressLn1 + "," + obj.CentreCounty + "," + obj.CentrePostcode;
+                if (checkTimes(obj))
+                {
+                    MOTCentre centre = convertMCTtoMC(obj);
+                    repository.Insert(centre);
+                    repository.Save();
+
+                    for (int i = 0; i < obj.times.Count; i++)
+                    {
+                        if (obj.times[i].OpeningTime.TotalDays != obj.times[i].ClosingTime.TotalDays)
+                        {
+                            CentreTime time = new CentreTime { DayOfTheWeek = i, OpeningTime = TimeSpan.FromHours(obj.times[i].OpeningTime.TotalDays), ClosingTime = TimeSpan.FromHours(obj.times[i].ClosingTime.TotalDays), MOTCentresCentreId = centre.CentreId };
+                            repository.InsertTime(time);
+                        }
+                    }
+                    repository.Save();
+                    return RedirectToAction("Index");
                 }
                 else
                 {
-                    centre.CentreAddress = obj.CentreAddressLn1 + "," + obj.CentreAddressLn2 + "," + obj.CentreCounty + "," + obj.CentrePostcode;
+                    ModelState.AddModelError("Time", "You have entered invalid opening hours. Centre must be oen for at least one day. A Centre also cannot Open after it Closes.");
+                    return View(obj);
                 }
-                repository.Insert(centre);
-                repository.Save();
-                centre = repository.SelectByName(obj.CentreName);
-
-                for (int i = 0; i < obj.times.Count; i++)
-                {
-                    if (obj.times[i].OpeningTime.TotalDays != obj.times[i].ClosingTime.TotalDays)
-                    {
-                        CentreTime time = new CentreTime { DayOfTheWeek = i, OpeningTime = TimeSpan.FromHours(obj.times[i].OpeningTime.TotalDays), ClosingTime = TimeSpan.FromHours(obj.times[i].ClosingTime.TotalDays), MOTCentresCentreId = centre.CentreId };
-                        repository.InsertTime(time);
-                    }
-                }
-                repository.Save();
-                return RedirectToAction("Index");
             }
             else // not valid so redisplay
             {
@@ -112,6 +116,10 @@ namespace Assignment2MOT.Controllers
         {
             ViewData["TimeList"] = list;
             MOTCentre existing = repository.SelectByID(id);
+            if (existing == null)
+            {
+                return new HttpNotFoundResult("Invalid Centre ID");
+            }
             MotCentreTimes centreTime = convertMCtoMCT(existing);
             return View(centreTime);
         }
@@ -121,20 +129,27 @@ namespace Assignment2MOT.Controllers
         public ActionResult Edit(MotCentreTimes obj)
         {
             ViewData["TimeList"] = list;
-            if (ModelState.IsValid && checkTimes(obj))
+            if (ModelState.IsValid)
             { // check valid state
-                MOTCentre centre = convertMCTtoMC(obj);
-                repository.Update(centre);
-                repository.Save();
-                centre = repository.SelectByName(obj.CentreName);
-
-                for (int i = 0; i < obj.times.Count; i++)
+                if (checkTimes(obj))
                 {
+                    MOTCentre centre = convertMCTtoMC(obj);
+                    repository.Update(centre);
+                    repository.Save();
+
+                    for (int i = 0; i < obj.times.Count; i++)
+                    {
                         CentreTime time = new CentreTime { DayOfTheWeek = i, OpeningTime = TimeSpan.FromHours(obj.times[i].OpeningTime.TotalDays), ClosingTime = TimeSpan.FromHours(obj.times[i].ClosingTime.TotalDays), MOTCentresCentreId = centre.CentreId };
                         repository.UpdateTime(time);
+                    }
+                    repository.Save();
+                    return RedirectToAction("Index");
                 }
-                repository.Save();
-                return RedirectToAction("Index");
+                else
+                {
+                    ModelState.AddModelError("Time", "You have entered invalid opening hours. Centre must be oen for at least one day. A Centre also cannot Open after it Closes.");
+                    return View(obj);
+                }
             }
             else // not valid so redisplay
             {
@@ -147,6 +162,10 @@ namespace Assignment2MOT.Controllers
         public ActionResult ConfirmDelete(int id)
         {
             MOTCentre existing = repository.SelectByID(id);
+            if (existing == null)
+            {
+                return new HttpNotFoundResult("Invalid Centre ID");
+            }
             return View(existing);
         }
 

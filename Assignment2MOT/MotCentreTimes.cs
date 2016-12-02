@@ -24,9 +24,11 @@ namespace Assignment2MOT
 
         [Required(ErrorMessage = "Address is a required field")]
         [Display(Name = "Address Line 1:")]
+        [StringLength(40, ErrorMessage = "Address can be no larger than 40 characters")]
         public string CentreAddressLn1 { get; set; }
 
         [Display(Name = "Address Line 2:")]
+        [StringLength(40, ErrorMessage = "Address can be no larger than 40 characters")]
         public string CentreAddressLn2 { get; set; }
 
         [Required(ErrorMessage = "Your must provide a Phone Number")]
@@ -37,6 +39,7 @@ namespace Assignment2MOT
 
         [Required(ErrorMessage = "County is a required field")]
         [Display(Name = "County:")]
+        [StringLength(20, ErrorMessage = "County can be no larger than 20 characters")]
         public string CentreCounty { get; set; }
 
         [Required(ErrorMessage = "Postcode is a required field")]

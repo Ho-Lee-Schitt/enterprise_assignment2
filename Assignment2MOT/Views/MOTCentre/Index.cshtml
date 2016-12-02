@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<Assignment2MOT.MOTCentre>
 
 @{
-    ViewBag.Title = "MOT Centre Details";
+    ViewBag.Title = "MOT Centres";
 }
 
-<h2>MOT Centre Details</h2>
+<h2>MOT Centres</h2>
 
 <p>
     @Html.ActionLink("Create New MOT Centre", "Create")
@@ -51,12 +51,12 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.CentreTeleNo)
-            <!--String.Format("{0:0## #### ####}", item.CentreTeleNo)-->
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.CentreCounty)
         </td>
         <td>
+            @{ string[] weekArray = new string[7];}
             @foreach (var time in item.CentreTimes)
             {
                 string dayString;
@@ -65,31 +65,36 @@
                 switch (time.DayOfTheWeek)
                 {
                     case 1:
-
-                        dayString = "Monday:" + dayString;
+                        weekArray[1] = "Monday:" + dayString;
                         break;
                     case 2:
-                        dayString = "Tuesday:" + dayString;
+                        weekArray[2] = "Tuesday:" + dayString;
                         break;
                     case 3:
-                        dayString = "Wednesday:" + dayString;
+                        weekArray[3] = "Wednesday:" + dayString;
                         break;
                     case 4:
-                        dayString = "Thursday:" + dayString;
+                        weekArray[4] = "Thursday:" + dayString;
                         break;
                     case 5:
-                        dayString = "Friday:" + dayString;
+                        weekArray[5] = "Friday:" + dayString;
                         break;
                     case 6:
-                        dayString = "Saturday:" + dayString;
+                        weekArray[6] = "Saturday:" + dayString;
                         break;
-                    case 7:
-                        dayString = "Sunday:" + dayString;
+                    case 0:
+                        weekArray[0] = "Sunday:" + dayString;
                         break;
                     default:
                         break;
                 }
-                @dayString <br/>
+            }
+            @for (int i = 0; i < 7; i++)
+            {
+                if (weekArray[i] != null)
+                {
+                    @weekArray[i] <br/>
+                }
             }
         </td>
         <td>

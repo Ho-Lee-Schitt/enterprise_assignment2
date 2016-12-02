@@ -23,19 +23,19 @@ namespace Assignment2MOT
         public int CentreId { get; set; }
 
         [Required]
-        [Display(Name = "Centre Name:")]
+        [Display(Name = "Centre Name")]
         public string CentreName { get; set; }
 
         [Required]
-        [Display(Name = "Centre Address:")]
+        [Display(Name = "Centre Address")]
         public string CentreAddress { get; set; }
 
-        [Display(Name = "Telephone Number:")]
+        [Display(Name = "Telephone Number")]
         [DisplayFormat(DataFormatString = "{0:0## #### ####}")]
         public long CentreTeleNo { get; set; }
 
         [Required]
-        [Display(Name = "Centre County:")]
+        [Display(Name = "Centre County")]
         public string CentreCounty { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
